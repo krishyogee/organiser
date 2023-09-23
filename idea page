@@ -1,0 +1,139 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart'; // Import the font package
+
+class IdeasScreen extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<IdeasScreen> {
+  String userName = "Krish"; // Initialize with a default name
+  String userLocation = "Your Location"; // Initialize with a default location
+  int currentPage = 0;
+
+  final List<String> containerContents = [
+    "Content 0",
+    "Content 2",
+    "Content 3",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              // Change this to a Row
+              crossAxisAlignment:
+                  CrossAxisAlignment.center, // Vertically center the elements
+              children: [
+                ClipOval(
+                  child: Container(
+                    width: 60,
+                    height: 60,
+                    color: Colors
+                        .blue, // You can set your desired background color here
+                    child: Center(
+                      child: Text(
+                        userName[
+                            0], // Display the first character of the user's name
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8.0),
+                Column(
+                  // Create a Column for "HI Krish" and location
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "HI  $userName",
+                      style: GoogleFonts.openSans(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Row(
+                      // Place the location icon and text in a Row
+                      children: [
+                        Icon(Icons.location_on),
+                        Text(userLocation),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: PageView.builder(
+              itemCount: containerContents.length,
+              controller: PageController(),
+              onPageChanged: (index) {
+                setState(() {
+                  currentPage = index;
+                });
+              },
+              itemBuilder: (context, index) {
+                return CurvedRectangleContainer(
+                  content: containerContents[index],
+                );
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(
+              containerContents.length,
+              (index) => Container(
+                margin: EdgeInsets.all(4.0),
+                width: 8.0,
+                height: 8.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: currentPage == index ? Colors.blue : Colors.grey,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CurvedRectangleContainer extends StatelessWidget {
+  final String content;
+
+  CurvedRectangleContainer({required this.content});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 70,
+      height: 70,
+      margin: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(
+            255, 0, 0, 0), // You can set your desired background color here
+        borderRadius: BorderRadius.circular(16.0),
+      ),
+      child: Center(
+        child: Text(
+          content,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
+  }
+}
